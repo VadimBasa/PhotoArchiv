@@ -7,12 +7,16 @@ import springbootdemo.repository.UserRepository;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements ServiceUserInterface {
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public UserService() {
+
     }
 
     public User findById(Long id) {
@@ -34,3 +38,4 @@ public class UserService {
         userRepository.deleteById(id);
     }
 }
+
