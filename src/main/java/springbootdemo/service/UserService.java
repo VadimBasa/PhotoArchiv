@@ -11,13 +11,16 @@ public class UserService implements ServiceUserInterface {
 
     private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private User user;
 
     public UserService() {
-
+        this.userRepository = userRepository;
+        this.user = user;
     }
+
+   // public UserService() {
+
+    //}
 
     public User findById(Long id) {
         return userRepository.findById(id)
@@ -30,7 +33,8 @@ public class UserService implements ServiceUserInterface {
         return userRepository.findAll();
     }
 
-    public User saveUser(User user) {
+    public User saveUser() {
+        //userRepository.save(user);
         return userRepository.save(user);
     }
 

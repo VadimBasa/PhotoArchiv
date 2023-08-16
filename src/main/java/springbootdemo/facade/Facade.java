@@ -1,59 +1,72 @@
 package springbootdemo.facade;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import springbootdemo.exception.InvalidCredentials;
+import springbootdemo.exception.UnauthorizedUser;
+import springbootdemo.model.Authorities;
 import springbootdemo.model.User;
+import springbootdemo.service.AuthorizationService;
 import springbootdemo.service.UserService;
 
 import java.util.List;
 
-public class Facade implements FacadeInterface {
+public class Facade {
     private UserService userService;
 
-    // private ServiceAdmin serviceAdmin; - второй этап, добавить сервис авторизации
+    private AuthorizationService authorizationService;// - второй этап, добавить сервис авторизации
+
     public Facade() {
         this.userService = userService;
+        this.authorizationService = authorizationService;
     }
 
-    //методы из контроллера
-
-    @GetMapping("/users")
-    public String findAll(Model model) {
+    public void findById(Long id, Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
-        return "user-list";
+        userService.findById(id);
     }
 
-    @GetMapping("/user-create")
-    public String createUserForm(User user) {
-        return "user-create";
+    public List<User> findAll() {
+
+        return userService.findAll();
     }
 
-    @PostMapping("/user-create")
-    public String createUser(User user) {
-        userService.saveUser(user);
-        return "redirect:/users";
+    public void createUser() {
+        //User user = new User();
+        userService.saveUser();
     }
 
-    @GetMapping("user-delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
+    public void deleteById(Long id) {
         userService.deleteById(id);
-        return "redirect:/users";
     }
 
-    @GetMapping("/user-update/{id}")
-    public String updateUserForm(@PathVariable("id") Long id, Model model) {
+    public void updateUserForm(Long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
-        return "user-update";
     }
 
-    @PostMapping("/user-update")
-    public String updateUser(User user) {
-        userService.saveUser(user);
-        return "redirect:/users";
+    public void updateUser() {
+        userService.saveUser();
+    }
+
+    @GetMapping("/authorize")
+    public List<Authorities> getAuthorities(@RequestParam("user") String user, @RequestParam("password") String password) {
+        return authorizationService.getAuthorities(user, password);
+    }
+
+    @ExceptionHandler(InvalidCredentials.class)
+    public ResponseEntity<String> handleInvalidCredentials(InvalidCredentials e) {
+        System.out.println("Exception: " + e.getMessage());
+        return new ResponseEntity<>("Exception: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnauthorizedUser.class)
+    public ResponseEntity<String> handleUnauthorizedUser(UnauthorizedUser e) {
+        System.out.println("Exception: " + e.getMessage());
+        return new ResponseEntity<>("Exception: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
 }
