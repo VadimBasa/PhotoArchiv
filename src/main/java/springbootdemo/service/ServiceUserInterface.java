@@ -10,7 +10,7 @@ public interface ServiceUserInterface {
 
     List<User> findAll();
 
-   User saveUser();
+   User saveUser(User user);
 
     void deleteById(Long id);
 }

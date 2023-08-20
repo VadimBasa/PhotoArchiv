@@ -9,36 +9,45 @@ import springbootdemo.exception.UnauthorizedUser;
 import springbootdemo.model.Authorities;
 import springbootdemo.model.User;
 import springbootdemo.service.AuthorizationService;
+import springbootdemo.service.ServiceUserInterface;
 import springbootdemo.service.UserService;
 
 import java.util.List;
 
-public class Facade {
+public class Facade implements ServiceUserInterface{
     private UserService userService;
+    private Model model;
+    //private AuthorizationService authorizationService;// - второй этап, добавить сервис авторизации
 
-    private AuthorizationService authorizationService;// - второй этап, добавить сервис авторизации
-
-    public Facade() {
+    public Facade(UserService userService) {
         this.userService = userService;
-        this.authorizationService = authorizationService;
+       // this.authorizationService = authorizationService;
     }
 
-    public void findById(Long id, Model model) {
+    @Override
+    public User saveUser(User user) {
+        //User user ;
+        System.out.println("I am facade and create user");
+        userService.saveUser(user);
+        //user = userService.saveUser(user);
+        return user;
+
+    }
+    @Override
+    public User findById(Long id) {//public User findById(Long id, Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
         userService.findById(id);
+        return null;
     }
-
+    @Override
     public List<User> findAll() {
 
         return userService.findAll();
     }
 
-    public void createUser() {
-        //User user = new User();
-        userService.saveUser();
-    }
 
+    @Override
     public void deleteById(Long id) {
         userService.deleteById(id);
     }
@@ -48,11 +57,11 @@ public class Facade {
         model.addAttribute("user", user);
     }
 
-    public void updateUser() {
-        userService.saveUser();
+    public void updateUser(User user) {
+        userService.saveUser(user);
     }
 
-    @GetMapping("/authorize")
+  /*  @GetMapping("/authorize")
     public List<Authorities> getAuthorities(@RequestParam("user") String user, @RequestParam("password") String password) {
         return authorizationService.getAuthorities(user, password);
     }
@@ -67,7 +76,7 @@ public class Facade {
     public ResponseEntity<String> handleUnauthorizedUser(UnauthorizedUser e) {
         System.out.println("Exception: " + e.getMessage());
         return new ResponseEntity<>("Exception: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
-    }
+    }*/
 
 }
 

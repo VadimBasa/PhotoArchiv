@@ -2,33 +2,33 @@ package springbootdemo.testRestAssured;
 
 //import org.testing.Assert;
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
+//import io.restassured.response.Response;
 
-import static org.hamcrest.CoreMatchers.*;
+//import static org.hamcrest.CoreMatchers.*;
 import static io.restassured.RestAssured.*;
 import org.junit.After;
-import org.junit.Assert;
+//import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+//import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+//import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+//import org.springframework.test.context.ContextConfiguration;
+//import org.springframework.test.context.junit4.SpringRunner;
 
-import io.restassured.RestAssured;
+//import io.restassured.RestAssured;
 import springbootdemo.repository.UserRepository;
 import springbootdemo.model.User;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 
-public class GetRequestAssured {
-    @LocalServerPort
+public class GetRequestAssuredTest {
+   // @LocalServerPort
     private int port = 8080;
     @Autowired
     private UserRepository repository;
@@ -39,21 +39,21 @@ public class GetRequestAssured {
         RestAssured.port = port;
     }
 
-    @After
+    /*@After
     public void resetDb() {
         repository.deleteAll();
         repository.flush();
-    }
+    }*/
 
    @Test
     public void whenCreateUser_thenStatus201() {
 
-       User user = new User(0L,"Michail","Ivanov","mean",15L);
+       User user = new User("Michail","Ivanov","mean",15L);
 
         given().log().body()
                 .contentType("application/json").body(user)
 
-                .when().post("/hello")
+                .when().post("/user-create")
 
                 .then().log().body()
                 .statusCode(HttpStatus.CREATED.value());

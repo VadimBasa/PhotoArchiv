@@ -15,7 +15,7 @@ public class AuthorizationService implements AuthorizationServiceInterface {
     UserRepository userRepository;
 
     public AuthorizationService() {
-        this.userRepository = userRepository;
+        //this.userRepository = userRepository;
     }
     public List<Authorities> getUserAuthorities(String user, String password) {
         List<Authorities> authorities = new ArrayList<>();

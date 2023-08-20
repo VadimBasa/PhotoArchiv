@@ -1,13 +1,16 @@
 package springbootdemo.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+//import jakarta.persistence.Table;
+
+//import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)//strategy = GenerationType.IDENTITY
     private Long id;
     @Column(name = "first_name")
     private String firstName;
@@ -30,7 +33,12 @@ public class User {
         this.sex = sex;
         this.age = age;
     }
-
+    public User(String firstName, String lastName, String sex, Long age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.sex = sex;
+        this.age = age;
+    }
     public Long getId() {
         return id;
     }

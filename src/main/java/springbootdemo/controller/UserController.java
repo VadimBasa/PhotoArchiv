@@ -1,5 +1,6 @@
 package springbootdemo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,25 +10,35 @@ import springbootdemo.exception.InvalidCredentials;
 import springbootdemo.exception.UnauthorizedUser;
 import springbootdemo.facade.Facade;
 import springbootdemo.model.Authorities;
-
+import springbootdemo.model.User;
+//import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-
-@Controller
-@RequestMapping("/")
+import javax.validation.Valid;
+@RestController
+//@RequestMapping("/")
 public class UserController {
-    Facade facade;
+    @Autowired
+    private Facade facade;
+    //Facade facade;
 
-    public UserController(Facade facade) {
-        this.facade = facade;
-    }
+    //public UserController(Facade facade) {
+    //    this.facade = facade;
+   // }
 
-    @GetMapping("/hello")
+   /* @GetMapping("/hello")
     public String ok() {
         facade.findAll();
         return "user-list";
         //return String.valueOf(ResponseEntity.ok());//.body(facade.findAll())
         //ResponseEntity.status(201).body(p)
-    }
+    }*/
+   @GetMapping("/user-create")
+   public String createUserForm(User user) {
+       System.out.println("I am controller and create user" + user.getFirstName());
+       facade.saveUser(user);
+       return "user-create";
+       //return String.valueOf(ResponseEntity.status(201).body(facade.findAll()));
+   }
 
     @GetMapping("/users")
     public String findAll() {
@@ -37,17 +48,16 @@ public class UserController {
         //ResponseEntity.status(201).body(p)
     }
 
-    @GetMapping("/user-create")
-    public String createUserForm() {
-        facade.createUser();
-        //return "user-create";
-        return String.valueOf(ResponseEntity.status(201).body(facade.findAll()));
-    }
+
 
     @PostMapping("/user-create")
-    public String createUser() {
-        facade.createUser();
-        return "redirect:/users";
+    public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
+        System.out.println("I am controller and create user " + user.getFirstName());
+       User u = facade.saveUser(user);
+        //return "redirect:/users";
+        return ResponseEntity.status(201).body(u);
+
+        //return null;
     }
 
     @GetMapping("user-delete/{id}")
@@ -63,12 +73,12 @@ public class UserController {
     }
 
     @PostMapping("/user-update")
-    public String updateUser() {
-        facade.updateUser();
+    public String updateUser(User user) {
+        facade.updateUser(user);
         return "redirect:/users";
     }
 
-    @GetMapping("/authorize")
+  /*  @GetMapping("/authorize")
     public List<Authorities> getAuthorities(@RequestParam("user") String user, @RequestParam("password") String password) {
         return facade.getAuthorities(user, password);
     }
@@ -83,6 +93,6 @@ public class UserController {
     public ResponseEntity<String> handleUnauthorizedUser(UnauthorizedUser e) {
         System.out.println("Exception: " + e.getMessage());
         return new ResponseEntity<>("Exception: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
-    }
+    }*/
 }
 
