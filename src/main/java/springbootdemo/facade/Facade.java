@@ -4,47 +4,68 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import springbootdemo.dto.CreateUserRequestDTO;
+import springbootdemo.dto.CreateUserResponseDTO;
 import springbootdemo.exception.InvalidCredentials;
 import springbootdemo.exception.UnauthorizedUser;
+import springbootdemo.mapper.UserMapper;
 import springbootdemo.model.Authorities;
 import springbootdemo.model.User;
 import springbootdemo.service.AuthorizationService;
 import springbootdemo.service.ServiceUserInterface;
 import springbootdemo.service.UserService;
-
+import org.modelmapper.ModelMapper;
+import javax.validation.Valid;
 import java.util.List;
 
-public class Facade implements ServiceUserInterface{
+
+public class Facade implements FacadeInterface{
     private UserService userService;
     private Model model;
     //private AuthorizationService authorizationService;// - второй этап, добавить сервис авторизации
-
-    public Facade(UserService userService) {
+    private UserMapper mapper;
+   // private CreateUserRequestDTO dtoUser;
+    public Facade(UserService userService, UserMapper mapper, Model model) {//, CreateUserRequestDTO dtoUser
         this.userService = userService;
-       // this.authorizationService = authorizationService;
+        this.mapper = mapper;
+        this.model = model;
+       // this.dtoUser = dtoUser;
+       //this.authorizationService = authorizationService;
     }
 
     @Override
-    public User saveUser(User user) {
+    public CreateUserRequestDTO saveUser(CreateUserRequestDTO dto) {
         //User user ;
         System.out.println("I am facade and create user");
-        userService.saveUser(user);
+
         //user = userService.saveUser(user);
-        return user;
+        return mapper.toDto(userService.saveUser(mapper.toEntity(dto)));
 
     }
+
     @Override
-    public User findById(Long id) {//public User findById(Long id, Model model) {
+    public CreateUserRequestDTO findById(CreateUserRequestDTO dto, Long id) {//public User findById(Long id, Model model) {
+        //CreateUserRequestDTO dto;
+       // mapper.toEntity(dto);
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
-        userService.findById(id);
-        return null;
+        UserMapper.MapperUtil.convertList(users, dto);
+        return mapper.toDto(userService.findById(id));
     }
-    @Override
+
+ /*   @Override
+    public List<CreateUserResponseDTO> findAll() {
+        CreateUserResponseDTO dto;
+        List<User> users = userService.findAll();
+        model.addAttribute("users", users);
+        return UserMapper.MapperUtil.convertList(users,dtoUser); //mapper.toDto(userService.findAll());
+    }*/
+
+   /* @Override
     public List<User> findAll() {
 
         return userService.findAll();
-    }
+    }*/
 
 
     @Override
@@ -52,14 +73,20 @@ public class Facade implements ServiceUserInterface{
         userService.deleteById(id);
     }
 
-    public void updateUserForm(Long id, Model model) {
+    /*public void updateUserForm(Long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
+    }*/
+
+    /*public void updateUser(User user) {
+        userService.saveUser(user);
+    }*/
+    @ Override
+    public CreateUserRequestDTO updateUser(CreateUserRequestDTO dto) {
+        return mapper.toDto(userService.saveUser(mapper.toEntity(dto)));
+
     }
 
-    public void updateUser(User user) {
-        userService.saveUser(user);
-    }
 
   /*  @GetMapping("/authorize")
     public List<Authorities> getAuthorities(@RequestParam("user") String user, @RequestParam("password") String password) {

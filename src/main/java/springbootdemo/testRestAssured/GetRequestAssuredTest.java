@@ -6,6 +6,8 @@ import io.restassured.RestAssured;
 
 //import static org.hamcrest.CoreMatchers.*;
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.equalTo;
+
 import org.junit.After;
 //import org.junit.Assert;
 import org.junit.Before;
@@ -23,7 +25,7 @@ import org.springframework.http.HttpStatus;
 //import io.restassured.RestAssured;
 import springbootdemo.repository.UserRepository;
 import springbootdemo.model.User;
-
+import springbootdemo.dto.CreateUserRequestDTO;
 //@RunWith(SpringRunner.class)
 //@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 
@@ -48,10 +50,11 @@ public class GetRequestAssuredTest {
    @Test
     public void whenCreateUser_thenStatus201() {
 
-       User user = new User("Michail","Ivanov","mean",15L);
+       CreateUserRequestDTO dto;
+       dto = new CreateUserRequestDTO("Michail","Ivanov","mean",15L);
 
-        given().log().body()
-                .contentType("application/json").body(user)
+       given().log().body()
+                .contentType("application/json").body(dto)
 
                 .when().post("/user-create")
 
@@ -59,7 +62,7 @@ public class GetRequestAssuredTest {
                 .statusCode(HttpStatus.CREATED.value());
     }
 
-  /* @Test
+  @Test
     public void givenUser_whenGetUser_thenStatus200() {
 
         long id = createTestUsers(2L,"Michail","Ivanov","mean",15L).getId();
@@ -73,7 +76,7 @@ public class GetRequestAssuredTest {
 
     }
 
-        @Test
+        /*@Test
         public void givenNoPerson_whenGetPerson_thenStatus500() {
 
             given().pathParam("id", 1).when().get("/persons/{id}").then().log().body()
@@ -115,10 +118,10 @@ public class GetRequestAssuredTest {
             ;
         }
     */
- /*  private User createTestUsers(Long id, String firstName, String lastName, String sex, Long age) {
+   private User createTestUsers(Long id, String firstName, String lastName, String sex, Long age) {
        User emp = new User(id, firstName, lastName, sex, age);
        return repository.saveAndFlush(emp);
-   }*/
+   }
 
   /*  @Test
 
