@@ -12,5 +12,5 @@ public interface ServiceUserInterface {
 
    User saveUser(User user);
 
-    void deleteById(Long id);
+    User deleteById(Long id);
 }

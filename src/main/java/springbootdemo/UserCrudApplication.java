@@ -14,8 +14,8 @@ import org.modelmapper.ModelMapper;
 @SpringBootApplication
 public class UserCrudApplication {
     @Bean
-    public Facade facade(UserService userService, UserMapper userMapper, Model model) {//, CreateUserRequestDTO dtoUser
-        return new Facade(userService, userMapper, model);//, dtoUser
+    public Facade facade(UserService userService, UserMapper userMapper) {//, Model model
+        return new Facade(userService, userMapper);//, model
     }
 
 
