@@ -3,6 +3,7 @@ package springbootdemo.service;
 import org.springframework.stereotype.Service;
 import springbootdemo.model.User;
 import springbootdemo.repository.UserRepository;
+
 import java.util.List;
 
 @Service
@@ -15,8 +16,9 @@ public class UserService implements ServiceUserInterface {
         this.userRepository = userRepository;
 
     }
+
     public User saveUser(User user) {
-        System.out.println("I am create user" + user.getFirstName());
+        System.out.println("I am service and create user" + user.getFirstName());
         return userRepository.save(user);
     }
 
@@ -32,11 +34,10 @@ public class UserService implements ServiceUserInterface {
     }
 
 
-
-    public User deleteById(Long id) {
+    public void deleteById(Long id) {
 
         userRepository.deleteById(id);
-        return null;
+
     }
 }
 

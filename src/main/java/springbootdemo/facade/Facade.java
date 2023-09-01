@@ -7,9 +7,10 @@ import springbootdemo.model.User;
 import springbootdemo.service.UserService;
 
 
-public class Facade implements FacadeInterface{
+public class Facade implements FacadeInterface {
     private final UserService userService;
     private final UserMapper mapper;
+
     public Facade(UserService userService, UserMapper mapper) {
         this.userService = userService;
         this.mapper = mapper;
@@ -17,9 +18,7 @@ public class Facade implements FacadeInterface{
 
     @Override
     public CreateUserRequestDTO saveUser(CreateUserRequestDTO dto) {
-        System.out.println("I am facade and create user");
         return mapper.toDto(userService.saveUser(mapper.toEntity(dto)));
-
     }
 
     @Override
@@ -27,22 +26,13 @@ public class Facade implements FacadeInterface{
         return mapper.toDto(userService.findById(id));
     }
 
- /*   @Override
-    public List<CreateUserResponseDTO> findAll() {
-        CreateUserResponseDTO dto;
-        List<User> users = userService.findAll();
-        model.addAttribute("users", users);
-        return UserMapper.MapperUtil.convertList(users,dtoUser); //mapper.toDto(userService.findAll());
-    }*/
-
 
     @Override
-    public CreateUserResponseDTO deleteById(Long id) {
+    public void deleteById(Long id) {
         userService.deleteById(id);
-        return null;
     }
 
-    @ Override
+    @Override
     public CreateUserResponseDTO updateUser(CreateUserResponseDTO dto, Long userId) {
         User user = userService.findById(userId);
         user.setFirstName(dto.getFirstName());

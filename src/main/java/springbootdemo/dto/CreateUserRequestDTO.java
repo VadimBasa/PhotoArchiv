@@ -11,5 +11,6 @@ public class CreateUserRequestDTO {
     private String lastName;
     private String sex;
     private Long age;
+
 }
 

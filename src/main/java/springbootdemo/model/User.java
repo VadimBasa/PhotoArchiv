@@ -1,9 +1,7 @@
 package springbootdemo.model;
 
 import jakarta.persistence.*;
-//import jakarta.persistence.Table;
 
-//import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -33,12 +31,14 @@ public class User {
         this.sex = sex;
         this.age = age;
     }
+
     public User(String firstName, String lastName, String sex, Long age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.sex = sex;
         this.age = age;
     }
+
     public Long getId() {
         return id;
     }
