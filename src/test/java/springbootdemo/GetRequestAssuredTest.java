@@ -1,7 +1,6 @@
-package springbootdemo.testRestAssured;
+package springbootdemo;
 
 import io.restassured.RestAssured;
-
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -25,6 +24,7 @@ import springbootdemo.dto.CreateUserRequestDTO;
 public class GetRequestAssuredTest {
     @LocalServerPort
     private int port;
+
     @Autowired
     private UserRepository repository;
 
@@ -78,7 +78,7 @@ public class GetRequestAssuredTest {
     public void givenPerson_whenDeleteUser_thenStatus200() {
 
         long id = createTestUsers(1L, "Nikita", "Sidorov", "mean", 16L).getId();
-        given().pathParam("id", id).log().body().contentType("application/json").when().delete("/user-delete/{id}").then()
+        given().pathParam("id", id).log().body().contentType("restfullapi/json").when().delete("/user-delete/{id}").then()
                 .log().body().statusCode(HttpStatus.OK.value());
     }
 
@@ -96,7 +96,7 @@ public class GetRequestAssuredTest {
 
 
     private User createTestUsers(Long id, String firstName, String lastName, String sex, Long age) {
-        
+
         User emp = new User(id, firstName, lastName, sex, age);
         return repository.saveAndFlush(emp);
     }

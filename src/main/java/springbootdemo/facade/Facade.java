@@ -2,13 +2,17 @@ package springbootdemo.facade;
 
 import springbootdemo.dto.CreateUserRequestDTO;
 import springbootdemo.dto.CreateUserResponseDTO;
+import springbootdemo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import springbootdemo.mapper.UserMapper;
 import springbootdemo.model.User;
-import springbootdemo.service.UserService;
 
-
+@Component
 public class Facade implements FacadeInterface {
+    @Autowired
     private final UserService userService;
+    @Autowired
     private final UserMapper mapper;
 
     public Facade(UserService userService, UserMapper mapper) {

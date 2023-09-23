@@ -1,15 +1,16 @@
 package springbootdemo.service;
 
+import springbootdemo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import springbootdemo.model.User;
-import springbootdemo.repository.UserRepository;
 
 import java.util.List;
 
 @Service
 public class UserService implements ServiceUserInterface {
-
-    private UserRepository userRepository;
+    @Autowired
+    private final UserRepository userRepository;
 
 
     public UserService(UserRepository userRepository) {//, User user
