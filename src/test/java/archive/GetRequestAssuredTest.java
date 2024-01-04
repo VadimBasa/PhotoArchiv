@@ -1,4 +1,4 @@
-package springbootdemo;
+package archive;
 
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.*;
@@ -13,10 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
-import springbootdemo.dto.CreateUserResponseDTO;
-import springbootdemo.repository.UserRepository;
-import springbootdemo.model.User;
-import springbootdemo.dto.CreateUserRequestDTO;
+import archive.dto.CreateUserResponseDTO;
+import archive.repository.UserRepository;
+import archive.model.User;
+import archive.dto.CreateUserRequestDTO;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

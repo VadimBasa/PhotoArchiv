@@ -1,6 +1,6 @@
-package springbootdemo.service;
+package archive.service;
 
-import springbootdemo.model.User;
+import archive.model.User;
 
 import java.util.List;
 

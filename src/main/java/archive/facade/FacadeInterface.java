@@ -1,7 +1,7 @@
-package springbootdemo.facade;
+package archive.facade;
 
-import springbootdemo.dto.CreateUserRequestDTO;
-import springbootdemo.dto.CreateUserResponseDTO;
+import archive.dto.CreateUserRequestDTO;
+import archive.dto.CreateUserResponseDTO;
 
 public interface FacadeInterface {
     CreateUserRequestDTO saveUser(CreateUserRequestDTO dto);
@@ -12,4 +12,7 @@ public interface FacadeInterface {
 
     // List<CreateUserResponseDTO> findAll();
     void deleteById(Long id);
+
+
+   void getAuthorities(String user, String password);
 }

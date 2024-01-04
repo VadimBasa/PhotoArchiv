@@ -1,22 +1,27 @@
-package springbootdemo.facade;
+package archive.facade;
 
-import springbootdemo.dto.CreateUserRequestDTO;
-import springbootdemo.dto.CreateUserResponseDTO;
-import springbootdemo.service.UserService;
+import archive.dto.CreateUserRequestDTO;
+import archive.dto.CreateUserResponseDTO;
+import archive.service.AuthorizationService;
+import archive.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import springbootdemo.mapper.UserMapper;
-import springbootdemo.model.User;
+import archive.mapper.UserMapper;
+import archive.model.User;
 
 @Component
 public class Facade implements FacadeInterface {
     @Autowired
     private final UserService userService;
+
+    @Autowired
+    private final AuthorizationService authorizationService;
     @Autowired
     private final UserMapper mapper;
 
-    public Facade(UserService userService, UserMapper mapper) {
+    public Facade(UserService userService, AuthorizationService authorizationService, UserMapper mapper) {
         this.userService = userService;
+        this.authorizationService = authorizationService;
         this.mapper = mapper;
     }
 
@@ -37,12 +42,21 @@ public class Facade implements FacadeInterface {
     }
 
     @Override
+    public void getAuthorities(String user, String password) {
+        authorizationService.getAuthorities(user, password);}
+
+    @Override
     public CreateUserResponseDTO updateUser(CreateUserResponseDTO dto, Long userId) {
         User user = userService.findById(userId);
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
-        user.setSex(dto.getSex());
-        user.setAge(dto.getAge());
+        user.setSecondName(dto.getSecondName());
+        user.setFileName(dto.getFileName());
+        user.setChapter(dto.getChapter());
+        user.setMonth(dto.getManth());
+        user.setComment(dto.getComment());
+        user.setDateLoad(dto.getDateLoad());
+
         return mapper.responseToDto(userService.saveUser(user));
     }
 

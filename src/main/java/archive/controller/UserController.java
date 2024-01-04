@@ -1,13 +1,18 @@
-package springbootdemo.controller;
+package archive.controller;
 
-import springbootdemo.dto.CreateUserRequestDTO;
-import springbootdemo.dto.CreateUserResponseDTO;
-import springbootdemo.facade.Facade;
+import archive.dto.CreateUserRequestDTO;
+import archive.dto.CreateUserResponseDTO;
+import archive.exception.InvalidCredentials;
+import archive.exception.UnauthorizedUser;
+import archive.facade.Facade;
+import archive.model.Authorities;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 
@@ -46,6 +51,25 @@ public class UserController {
     public ResponseEntity<CreateUserRequestDTO> findById(@PathVariable("id") Long id) {
         CreateUserRequestDTO p = facade.findById(id);
         return ResponseEntity.status(200).body(p);
+    }
+    // метод авторизации
+    @GetMapping("/authorize")
+    public void getAuthorization(@RequestParam("user") String user, @RequestParam("password") String password) {
+            //List<Authorities>
+        //facade.authorization(user, password);
+        facade.getAuthorities(user, password);
+    }
+
+    @ExceptionHandler(InvalidCredentials.class)
+    public ResponseEntity<String> handleInvalidCredentials (InvalidCredentials e) {
+        System.out.println("Exception: " + e.getMessage());
+        return new ResponseEntity<>( "Exception: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnauthorizedUser.class)
+    public ResponseEntity<String> handleUnauthorizedUser (UnauthorizedUser e) {
+        System.out.println("Exception: " + e.getMessage());
+        return new ResponseEntity<>("Exception: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
 }

@@ -1,9 +1,9 @@
-package springbootdemo.service;
+package archive.service;
 
-import springbootdemo.repository.UserRepository;
+import archive.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import springbootdemo.model.User;
+import archive.model.User;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class UserService implements ServiceUserInterface {
     private final UserRepository userRepository;
 
 
-    public UserService(UserRepository userRepository) {//, User user
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
 
     }
